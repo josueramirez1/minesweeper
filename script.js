@@ -1,21 +1,33 @@
 const board = document.querySelector(".board");
 displayBoard();
-const tiles = [...document.querySelectorAll("[data-status]")];
-console.log(tiles);
+let tiles = [...document.querySelectorAll("[data-status]")];
+let newTiles = shuffle(tiles);
+newBoard(newTiles);
 
 // FUNCTIONS
 
 function displayBoard() {
-  for (let i = 1; i <= 100; i++) {
+  // hidden class
+  for (let i = 1; i <= 90; i++) {
     let div = document.createElement("div");
     div.setAttribute("data-status", "hidden");
     board.append(div);
   }
+  // mine class
+  for (let i = 1; i <= 10; i++) {
+    let div = document.createElement("div");
+    div.setAttribute("data-status", "mine");
+    board.append(div);
+  }
 }
 
+function newBoard(array) {
+  return array.map((tile) => {
+    board.append(tile);
+  });
+}
 // Fisher-Yates
 function shuffle(array) {
-  console.log(array);
   let currentIndex = array.length;
   let temporaryValue, randomIndex;
 
@@ -29,6 +41,8 @@ function shuffle(array) {
   }
   return array;
 }
+
+// Left click functionality
 
 // Right click functionality
 
