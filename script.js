@@ -1,10 +1,11 @@
+const body = document.querySelector("body");
 const board = document.querySelector(".board");
 let subtext = document.querySelector(".subtext");
 loadBoard();
 let tiles = [...document.querySelectorAll("[data-status]")];
 shuffle(tiles);
 let mines = tiles.filter((tile, index) => {
-  if (index <= 10) {
+  if (index < 10) {
     return tile;
   }
 });
@@ -16,6 +17,7 @@ function loadBoard() {
   for (let i = 1; i <= 100; i++) {
     let div = document.createElement("div");
     div.dataset.status = "hidden";
+    div.id = i;
     board.append(div);
   }
 }
@@ -38,16 +40,25 @@ function shuffle(array) {
 }
 
 // Left click functionality
-document.addEventListener("click", (e) => {
+board.addEventListener("click", (e) => {
+  let num = 0;
   if (!e.target.matches("[data-status]")) return;
-  // if user clicks on non-mine...
 
   tiles.forEach((tile, index) => {
     e.target.dataset.status = "number";
 
-    // if user clicks on mine...
-    mines.forEach((mine, index) => {
+    mines.forEach((mine, i) => {
+      if (e.target.nextElementSibling === mine) {
+        e.target.dataset.status = "number";
+        e.target.textContent = num;
+      }
+      if (e.target.previousElementSibling === mine) {
+        e.target.dataset.status = "number";
+        e.target.textContent = num;
+      }
+
       if (e.target === mine) {
+        e.target.dataset.status = "mine";
         mines.forEach((m) => {
           m.dataset.status = "mine";
         });
