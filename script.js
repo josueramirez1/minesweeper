@@ -44,34 +44,8 @@ function shuffle(array) {
 // let bottomLeftTile = e.target.id + 9;
 // let bottomTile = e.target.id + 10;
 // let bottomRightTile = e.target.id + 11;
-function topRightNeighbor(e, array) {
-  let topRightTile = e.target.id - 9;
-
-  let tile = array.find((t) => {
-    let numT = parseInt(t.id);
-    if (numT === topRightTile) {
-      return t;
-    }
-  });
-
-  return tile;
-}
-function topLeftNeighbor(e, array) {
-  let topLeftTile = e.target.id - 11;
-
-  let tile = array.find((t) => {
-    let numT = parseInt(t.id);
-    if (numT === topLeftTile) {
-      return t;
-    }
-  });
-
-  return tile;
-}
-
 function topNeighbor(e, array) {
   let topTile = e.target.id - 10;
-
   let tile = array.find((t) => {
     let numT = parseInt(t.id);
     if (numT === topTile) {
@@ -82,12 +56,69 @@ function topNeighbor(e, array) {
   return tile;
 }
 
+function topRightNeighbor(e, array) {
+  let topRightTile = e.target.id - 9;
+  let tile = array.find((t) => {
+    let numT = parseInt(t.id);
+    if (numT === topRightTile) {
+      return t;
+    }
+  });
+  return tile;
+}
+function topLeftNeighbor(e, array) {
+  let topLeftTile = e.target.id - 11;
+  let tile = array.find((t) => {
+    let numT = parseInt(t.id);
+    if (numT === topLeftTile) {
+      return t;
+    }
+  });
+  return tile;
+}
+function bottomNeighbor(e, array) {
+  let bottomTile = parseInt(e.target.id) + 10;
+
+  let tile = array.find((t) => {
+    let numT = parseInt(t.id);
+    if (numT === bottomTile) {
+      return t;
+    }
+  });
+  return tile;
+}
+function bottomRightNeighbor(e, array) {
+  let bottomRightTile = parseInt(e.target.id) + 11;
+
+  let tile = array.find((t) => {
+    let numT = parseInt(t.id);
+    if (numT === bottomRightTile) {
+      return t;
+    }
+  });
+  return tile;
+}
+function bottomLeftNeighbor(e, array) {
+  let bottomLeftTile = parseInt(e.target.id) + 9;
+
+  let tile = array.find((t) => {
+    let numT = parseInt(t.id);
+    if (numT === bottomLeftTile) {
+      return t;
+    }
+  });
+  return tile;
+}
+
 // Left click functionality
 board.addEventListener("click", (e) => {
   let num = 0;
   let top = topNeighbor(e, tiles);
   let topR = topRightNeighbor(e, tiles);
   let topL = topLeftNeighbor(e, tiles);
+  let bottom = bottomNeighbor(e, tiles);
+  let bottomR = bottomRightNeighbor(e, tiles);
+  let bottomL = bottomLeftNeighbor(e, tiles);
 
   if (!e.target.matches("[data-status]")) return;
 
@@ -97,28 +128,45 @@ board.addEventListener("click", (e) => {
 
   mines.forEach((mine) => {
     if (e.target.nextElementSibling === mine) {
+      num++;
       e.target.dataset.status = "number";
-      e.target.textContent = num++;
+      e.target.textContent = num;
     }
     if (e.target.previousElementSibling === mine) {
+      num++;
       e.target.dataset.status = "number";
-      e.target.textContent = ++num;
+      e.target.textContent = num;
     }
-
     if (top === mine) {
+      num++;
       e.target.dataset.status = "number";
-      e.target.textContent = ++num;
+      e.target.textContent = num;
     }
-
     if (topR === mine) {
+      num++;
       e.target.dataset.status = "number";
-      e.target.textContent = ++num;
+      e.target.textContent = num;
     }
     if (topL === mine) {
+      num++;
       e.target.dataset.status = "number";
-      e.target.textContent = ++num;
+      e.target.textContent = num;
     }
-
+    if (bottom === mine) {
+      num++;
+      e.target.dataset.status = "number";
+      e.target.textContent = num;
+    }
+    if (bottomR === mine) {
+      num++;
+      e.target.dataset.status = "number";
+      e.target.textContent = num;
+    }
+    if (bottomL === mine) {
+      num++;
+      e.target.dataset.status = "number";
+      e.target.textContent = num;
+    }
     if (e.target === mine) {
       e.target.dataset.status = "mine";
       mines.forEach((m) => {
