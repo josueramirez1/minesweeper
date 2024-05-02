@@ -1,9 +1,9 @@
 const board = document.querySelector(".board");
 let subtext = document.querySelector(".subtext");
-displayBoard();
+loadBoard();
 let tiles = [...document.querySelectorAll("[data-status]")];
-let newTiles = shuffle(tiles);
-let mines = newTiles.filter((tile, index) => {
+shuffle(tiles);
+let mines = tiles.filter((tile, index) => {
   if (index <= 10) {
     return tile;
   }
@@ -11,20 +11,15 @@ let mines = newTiles.filter((tile, index) => {
 
 // FUNCTIONS
 
-function displayBoard() {
+function loadBoard() {
   // hidden class
   for (let i = 1; i <= 100; i++) {
     let div = document.createElement("div");
-    div.setAttribute("data-status", "hidden");
+    div.dataset.status = "hidden";
     board.append(div);
   }
 }
 
-function newBoard(array) {
-  return array.map((tile) => {
-    board.append(tile);
-  });
-}
 // Fisher-Yates
 function shuffle(array) {
   let currentIndex = array.length;
@@ -38,6 +33,7 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
+
   return array;
 }
 
@@ -45,19 +41,19 @@ function shuffle(array) {
 document.addEventListener("click", (e) => {
   if (!e.target.matches("[data-status]")) return;
   // if user clicks on non-mine...
-  console.dir(e.target);
-  newTiles.forEach((tile) => {
-    e.target.dataset.status = "number";
-  });
 
-  // if user clicks on mine...
-  mines.forEach((mine) => {
-    if (e.target === mine) {
-      mines.forEach((m) => {
-        m.dataset.status = "mine";
-      });
-      subtext.textContent = "You Lose ☹️ ";
-    }
+  tiles.forEach((tile, index) => {
+    e.target.dataset.status = "number";
+
+    // if user clicks on mine...
+    mines.forEach((mine, index) => {
+      if (e.target === mine) {
+        mines.forEach((m) => {
+          m.dataset.status = "mine";
+        });
+        subtext.textContent = "You Lose ☠️ ";
+      }
+    });
   });
 });
 
