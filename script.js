@@ -39,32 +39,93 @@ function shuffle(array) {
   return array;
 }
 
+// let topTile = e.target.id - 10;
+// let topLeftTile = e.target.id - 11;
+// let bottomLeftTile = e.target.id + 9;
+// let bottomTile = e.target.id + 10;
+// let bottomRightTile = e.target.id + 11;
+function topRightNeighbor(e, array) {
+  let topRightTile = e.target.id - 9;
+
+  let tile = array.find((t) => {
+    let numT = parseInt(t.id);
+    if (numT === topRightTile) {
+      return t;
+    }
+  });
+
+  return tile;
+}
+function topLeftNeighbor(e, array) {
+  let topLeftTile = e.target.id - 11;
+
+  let tile = array.find((t) => {
+    let numT = parseInt(t.id);
+    if (numT === topLeftTile) {
+      return t;
+    }
+  });
+
+  return tile;
+}
+
+function topNeighbor(e, array) {
+  let topTile = e.target.id - 10;
+
+  let tile = array.find((t) => {
+    let numT = parseInt(t.id);
+    if (numT === topTile) {
+      return t;
+    }
+  });
+
+  return tile;
+}
+
 // Left click functionality
 board.addEventListener("click", (e) => {
   let num = 0;
+  let top = topNeighbor(e, tiles);
+  let topR = topRightNeighbor(e, tiles);
+  let topL = topLeftNeighbor(e, tiles);
+
   if (!e.target.matches("[data-status]")) return;
 
-  tiles.forEach((tile, index) => {
+  tiles.forEach(() => {
     e.target.dataset.status = "number";
+  });
 
-    mines.forEach((mine, i) => {
-      if (e.target.nextElementSibling === mine) {
-        e.target.dataset.status = "number";
-        e.target.textContent = num;
-      }
-      if (e.target.previousElementSibling === mine) {
-        e.target.dataset.status = "number";
-        e.target.textContent = num;
-      }
+  mines.forEach((mine) => {
+    if (e.target.nextElementSibling === mine) {
+      e.target.dataset.status = "number";
+      e.target.textContent = num++;
+    }
+    if (e.target.previousElementSibling === mine) {
+      e.target.dataset.status = "number";
+      e.target.textContent = ++num;
+    }
 
-      if (e.target === mine) {
-        e.target.dataset.status = "mine";
-        mines.forEach((m) => {
-          m.dataset.status = "mine";
-        });
-        subtext.textContent = "You Lose ☠️ ";
-      }
-    });
+    if (top === mine) {
+      e.target.dataset.status = "number";
+      e.target.textContent = ++num;
+    }
+
+    if (topR === mine) {
+      e.target.dataset.status = "number";
+      e.target.textContent = ++num;
+    }
+    if (topL === mine) {
+      e.target.dataset.status = "number";
+      e.target.textContent = ++num;
+    }
+
+    if (e.target === mine) {
+      e.target.dataset.status = "mine";
+      mines.forEach((m) => {
+        m.dataset.status = "mine";
+      });
+      subtext.textContent = "You Lose ☠️ ";
+    }
   });
 });
 
