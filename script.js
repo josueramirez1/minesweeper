@@ -47,7 +47,6 @@ function topNeighbor(e, array) {
       return t;
     }
   });
-
   return tile;
 }
 
@@ -121,38 +120,21 @@ board.addEventListener("click", (e) => {
   });
 
   mines.forEach((mine) => {
-    if (e.target.nextElementSibling === mine) {
+    if (
+      e.target.nextElementSibling === mine ||
+      e.target.previousElementSibling === mine ||
+      top === mine ||
+      topR === mine ||
+      topL === mine ||
+      bottom === mine ||
+      bottomR === mine ||
+      bottomL === mine
+    ) {
+      console.log(mine);
       num++;
       e.target.textContent = num;
     }
-    if (e.target.previousElementSibling === mine) {
-      num++;
-      e.target.textContent = num;
-    }
-    if (top === mine) {
-      num++;
-      e.target.textContent = num;
-    }
-    if (topR === mine) {
-      num++;
-      e.target.textContent = num;
-    }
-    if (topL === mine) {
-      num++;
-      e.target.textContent = num;
-    }
-    if (bottom === mine) {
-      num++;
-      e.target.textContent = num;
-    }
-    if (bottomR === mine) {
-      num++;
-      e.target.textContent = num;
-    }
-    if (bottomL === mine) {
-      num++;
-      e.target.textContent = num;
-    }
+
     if (e.target === mine) {
       e.target.dataset.status = "mine";
       mines.forEach((m) => {
