@@ -9,6 +9,11 @@ let mines = tiles.filter((tile, index) => {
     return tile;
   }
 });
+let safeTiles = tiles.filter((tile, index) => {
+  if (index >= 10) {
+    return tile;
+  }
+});
 
 // FUNCTIONS
 
@@ -101,8 +106,6 @@ function bottomLeftNeighbor(e, array) {
   return tile;
 }
 
-function recursiveSpace(e, mine) {}
-
 // Left click functionality
 board.addEventListener("click", (e) => {
   let num = 0;
@@ -112,12 +115,16 @@ board.addEventListener("click", (e) => {
   let bottom = bottomNeighbor(e, tiles);
   let bottomR = bottomRightNeighbor(e, tiles);
   let bottomL = bottomLeftNeighbor(e, tiles);
+  let safeTop = topNeighbor(e, safeTiles);
+  let safeTopR = topRightNeighbor(e, safeTiles);
+  let safeTopL = topLeftNeighbor(e, safeTiles);
+  let safeBottom = bottomNeighbor(e, safeTiles);
+  let safeBottomR = bottomRightNeighbor(e, safeTiles);
+  let safeBottomL = bottomLeftNeighbor(e, safeTiles);
 
   if (!e.target.matches("[data-status]")) return;
 
-  tiles.forEach((tile) => {
-    e.target.dataset.status = "number";
-  });
+  tiles.forEach(() => (e.target.dataset.status = "number"));
 
   mines.forEach((mine) => {
     if (
@@ -130,17 +137,44 @@ board.addEventListener("click", (e) => {
       bottomR === mine ||
       bottomL === mine
     ) {
-      console.log(mine);
       num++;
       e.target.textContent = num;
     }
 
     if (e.target === mine) {
       e.target.dataset.status = "mine";
+      e.target.textContent = "";
       mines.forEach((m) => {
         m.dataset.status = "mine";
       });
       subtext.textContent = "You Lose ☠️ ";
+    }
+  });
+
+  safeTiles.forEach((safe) => {
+    if (e.target.nextElementSibling === safe) {
+      e.target.nextElementSibling.dataset.status = "number";
+    }
+    if (e.target.previousElementSibling === safe) {
+      e.target.previousElementSibling.dataset.status = "number";
+    }
+    if (safeTop === safe) {
+      safeTop.dataset.status = "number";
+    }
+    if (safeTopR === safe) {
+      safeTopR.dataset.status = "number";
+    }
+    if (safeTopL === safe) {
+      safeTopL.dataset.status = "number";
+    }
+    if (safeBottom === safe) {
+      safeBottom.dataset.status = "number";
+    }
+    if (safeBottomL === safe) {
+      safeBottomL.dataset.status = "number";
+    }
+    if (safeBottomR === safe) {
+      safeBottomR.dataset.status = "number";
     }
   });
 });
