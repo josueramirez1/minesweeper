@@ -39,11 +39,6 @@ function shuffle(array) {
   return array;
 }
 
-// let topTile = e.target.id - 10;
-// let topLeftTile = e.target.id - 11;
-// let bottomLeftTile = e.target.id + 9;
-// let bottomTile = e.target.id + 10;
-// let bottomRightTile = e.target.id + 11;
 function topNeighbor(e, array) {
   let topTile = e.target.id - 10;
   let tile = array.find((t) => {
@@ -78,7 +73,6 @@ function topLeftNeighbor(e, array) {
 }
 function bottomNeighbor(e, array) {
   let bottomTile = parseInt(e.target.id) + 10;
-
   let tile = array.find((t) => {
     let numT = parseInt(t.id);
     if (numT === bottomTile) {
@@ -89,7 +83,6 @@ function bottomNeighbor(e, array) {
 }
 function bottomRightNeighbor(e, array) {
   let bottomRightTile = parseInt(e.target.id) + 11;
-
   let tile = array.find((t) => {
     let numT = parseInt(t.id);
     if (numT === bottomRightTile) {
@@ -100,7 +93,6 @@ function bottomRightNeighbor(e, array) {
 }
 function bottomLeftNeighbor(e, array) {
   let bottomLeftTile = parseInt(e.target.id) + 9;
-
   let tile = array.find((t) => {
     let numT = parseInt(t.id);
     if (numT === bottomLeftTile) {
@@ -109,6 +101,8 @@ function bottomLeftNeighbor(e, array) {
   });
   return tile;
 }
+
+function recursiveSpace(e, mine) {}
 
 // Left click functionality
 board.addEventListener("click", (e) => {
@@ -122,49 +116,41 @@ board.addEventListener("click", (e) => {
 
   if (!e.target.matches("[data-status]")) return;
 
-  tiles.forEach(() => {
+  tiles.forEach((tile) => {
     e.target.dataset.status = "number";
   });
 
   mines.forEach((mine) => {
     if (e.target.nextElementSibling === mine) {
       num++;
-      e.target.dataset.status = "number";
       e.target.textContent = num;
     }
     if (e.target.previousElementSibling === mine) {
       num++;
-      e.target.dataset.status = "number";
       e.target.textContent = num;
     }
     if (top === mine) {
       num++;
-      e.target.dataset.status = "number";
       e.target.textContent = num;
     }
     if (topR === mine) {
       num++;
-      e.target.dataset.status = "number";
       e.target.textContent = num;
     }
     if (topL === mine) {
       num++;
-      e.target.dataset.status = "number";
       e.target.textContent = num;
     }
     if (bottom === mine) {
       num++;
-      e.target.dataset.status = "number";
       e.target.textContent = num;
     }
     if (bottomR === mine) {
       num++;
-      e.target.dataset.status = "number";
       e.target.textContent = num;
     }
     if (bottomL === mine) {
       num++;
-      e.target.dataset.status = "number";
       e.target.textContent = num;
     }
     if (e.target === mine) {
